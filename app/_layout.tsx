@@ -1,6 +1,6 @@
 import { GlobalProvider } from "@/src/shared/GlobalContext";
 import Router from "@/src/Router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SplashScreen from "@/src/Splash/SplashScreen";
 
 export default function RootLayout() {

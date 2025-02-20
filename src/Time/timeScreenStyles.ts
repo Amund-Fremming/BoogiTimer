@@ -1,18 +1,18 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "../shared/Colors";
 
 export const styles = StyleSheet.create({
   container: {
-    height: "100%",
     width: "100%",
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.Black,
   },
-});
 
-export const imageStyles = StyleSheet.create({
-  image: {
-    minHeight: "40%",
+  absoluteButton: {
+    position: "absolute",
+    bottom: 50,
+    right: 35,
+    gap: 10,
+    flexDirection: "row",
   },
 });

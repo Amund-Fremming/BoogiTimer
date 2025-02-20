@@ -1,4 +1,4 @@
-import { View, Text, Button, Alert } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { Component } from "../shared/Component";
 import { useGlobalProvider } from "../shared/GlobalContext";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { styles } from "./countdownScreenStyles";
 import { Colors } from "../shared/Colors";
 import { defaultValue, INumericInput } from "../shared/types";
 import React from "react";
+import Button from "../shared/Button/Button";
 
 export default function CountdownScreen() {
   const [backgroundColor, setBackgroundColor] = useState<string>(Colors.White);
@@ -57,9 +58,13 @@ export default function CountdownScreen() {
           </>
         )}
       </View>
-      <View style={styles.buttonWrapper}>
-        <Button title="Back" onPress={() => setView(Component.Iteration)} />
-        <Button title="Start" onPress={startCountdown} />
+      <View style={styles.absoluteButtons}>
+        <Button
+          backButton
+          inverted
+          onPress={() => setView(Component.Iteration)}
+        />
+        <Button onPress={startCountdown} />
       </View>
     </View>
   );

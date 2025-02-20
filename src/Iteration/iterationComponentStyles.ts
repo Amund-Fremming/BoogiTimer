@@ -3,28 +3,36 @@ import { Colors } from "../shared/Colors";
 
 export const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    backgroundColor: Colors.Black,
-  },
-
-  icon: {
-    //
-  },
-
-  inputContainer: {
-    flexDirection: "row",
+    height: "auto",
+    width: "80%",
+    backgroundColor: Colors.White,
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
 
   numberWrapper: {
-    justifyContent: "center",
+    //
+  },
+
+  text: {
+    fontSize: 18,
+    color: Colors.Gray,
+  },
+
+  lineWrapper: {
+    width: "80%",
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    flexDirection: "column",
+  },
+
+  buttonWrapper: {
+    flexDirection: "row",
   },
 
   number: {
-    fontSize: 40,
+    fontSize: 20,
   },
 
   controlButton: {
@@ -35,17 +43,5 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 2,
-  },
-
-  colon: {
-    fontSize: 20,
-  },
-
-  buttonContainer: {
-    flexDirection: "row",
-    gap: 20,
-    position: "absolute",
-    top: 50,
-    alignItems: "center",
   },
 });
