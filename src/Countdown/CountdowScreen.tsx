@@ -16,14 +16,11 @@ export default function CountdownScreen() {
 
   const soundService = new AudioService();
 
-  console.log(soundService.sounds);
-
   const { setView, rounds, intervalLength, intervalPauseLength } =
     useGlobalProvider();
 
   useEffect(() => {
     setCountdown(intervalLength);
-    soundService.initializeSounds();
   }, []);
 
   const startCountdown = () => {
@@ -47,6 +44,7 @@ export default function CountdownScreen() {
 
   const playSound = async () => {
     try {
+      await soundService.initializeSounds(); // move
       await soundService.playRandomSound();
     } catch (error) {
       console.log(error);
