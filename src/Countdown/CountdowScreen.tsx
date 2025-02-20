@@ -7,17 +7,23 @@ import { Colors } from "../shared/Colors";
 import { defaultValue, INumericInput } from "../shared/types";
 import React from "react";
 import Button from "../shared/Button/Button";
+import { AudioService } from "./audio/AudioService";
 
 export default function CountdownScreen() {
   const [backgroundColor, setBackgroundColor] = useState<string>(Colors.White);
   const [isPause, setIsPause] = useState<boolean>(false);
   const [countdown, setCountdown] = useState<INumericInput>(defaultValue);
 
+  const soundService = new AudioService();
+
+  console.log(soundService.sounds);
+
   const { setView, rounds, intervalLength, intervalPauseLength } =
     useGlobalProvider();
 
   useEffect(() => {
     setCountdown(intervalLength);
+    soundService.initializeSounds();
   }, []);
 
   const startCountdown = () => {
@@ -38,6 +44,14 @@ export default function CountdownScreen() {
   const updateCountdown = () => {};
 
   const roundsFinished = () => rounds === 0;
+
+  const playSound = async () => {
+    try {
+      await soundService.playRandomSound();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const countdownFinished = () =>
     countdown.leftMinutes === 0 &&
@@ -65,6 +79,7 @@ export default function CountdownScreen() {
           onPress={() => setView(Component.Iteration)}
         />
         <Button onPress={startCountdown} />
+        <Button onPress={playSound} />
       </View>
     </View>
   );
