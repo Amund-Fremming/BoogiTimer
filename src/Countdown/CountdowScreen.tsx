@@ -1,53 +1,147 @@
 import { View, Text, Alert } from "react-native";
-import { Component } from "../shared/Component";
-import { useGlobalProvider } from "../shared/GlobalContext";
+import { Component } from "../shared/constants/Component";
+import { useGlobalProvider } from "../shared/providers/GlobalContext";
 import { useEffect, useState } from "react";
 import { styles } from "./countdownScreenStyles";
-import { Colors } from "../shared/Colors";
-import { defaultValue, INumericInput } from "../shared/types";
+import { Colors } from "../shared/constants/Colors";
+import { IClock, defaultValue } from "../shared/constants/Clock";
 import React from "react";
 import Button from "../shared/Button/Button";
-import { AudioService } from "./audio/AudioService";
+import { useServiceProvider } from "../shared/providers/ServiceContext";
+
+enum State {
+  NotStarted,
+  Interval,
+  IntervalPause,
+  RoundPause,
+  Finished,
+}
 
 export default function CountdownScreen() {
-  const [backgroundColor, setBackgroundColor] = useState<string>(Colors.White);
-  const [isPause, setIsPause] = useState<boolean>(false);
-  const [countdown, setCountdown] = useState<INumericInput>(defaultValue);
+  const [backgroundColor, setBackgroundColor] = useState<string>(Colors.Black);
+  const [state, setState] = useState<State>(State.NotStarted);
+  const [countdown, setCountdown] = useState<IClock>(defaultValue);
+  const [currentInterval, setCurrentInterval] = useState<number>(0);
 
-  const soundService = new AudioService();
-
-  console.log(soundService.sounds);
-
-  const { setView, rounds, intervalLength, intervalPauseLength } =
-    useGlobalProvider();
+  const { audioService } = useServiceProvider();
+  const {
+    setView,
+    rounds,
+    intervals,
+    intervalLength,
+    intervalPauseLength,
+    roundPauseLength,
+  } = useGlobalProvider();
 
   useEffect(() => {
     setCountdown(intervalLength);
-    soundService.initializeSounds();
+    setCurrentInterval(intervals);
   }, []);
 
   const startCountdown = () => {
-    setInterval(() => {
-      if (roundsFinished()) {
-        Alert.alert("Countdown finished");
-      }
+    console.log("countdown : " + countdown);
 
-      if (countdownFinished()) {
-        setBackgroundColor(isPause ? Colors.Green : Colors.Red);
-        setCountdown(isPause ? intervalLength : intervalPauseLength);
-        setIsPause(!isPause);
-        updateCountdown();
+    let interval = setInterval(() => {
+      setState(State.Interval);
+      let stopInterval = handleCountdown();
+      if (stopInterval) {
+        console.log("hit");
+        clearInterval(interval);
       }
     }, 1000);
   };
 
-  const updateCountdown = () => {};
+  const updateCountdown = () => {
+    var values = [
+      countdown.rightSeconds,
+      countdown.leftSeconds,
+      countdown.rightMinutes,
+      countdown.leftMinutes,
+    ];
+    let nonZero = 0;
+    for (let i = 0; i < 4; i++) {
+      if (values[i] !== 0) {
+        nonZero = i;
+        break;
+      }
+    }
 
-  const roundsFinished = () => rounds === 0;
+    values[nonZero] = values[nonZero] - 1;
+    for (let i = nonZero - 1; nonZero >= 0; i--) {
+      if (isEven(values[i])) {
+        values[i] = 9;
+        continue;
+      }
+
+      values[i] = 6;
+    }
+
+    setCountdown({
+      leftMinutes: values[3],
+      rightMinutes: values[2],
+      leftSeconds: values[1],
+      rightSeconds: values[0],
+    });
+
+    console.log({
+      leftMinutes: values[3],
+      rightMinutes: values[2],
+      leftSeconds: values[1],
+      rightSeconds: values[0],
+    });
+  };
+
+  const isEven = (num: number) => num % 2 === 0;
+
+  const handleCountdown = (): boolean => {
+    if (state === State.Interval) {
+      console.log("Incrementing interval");
+      setCurrentInterval(currentInterval - 1);
+    }
+
+    if (countdownFinished() && state === State.Interval) {
+      if (rounds === 0) {
+        setBackgroundColor(Colors.Black);
+        return true;
+      }
+
+      if (currentInterval === 0) {
+        setState(State.RoundPause);
+        setBackgroundColor("pink");
+        setCurrentInterval(intervals);
+        setCountdown(roundPauseLength);
+        return false;
+      }
+
+      setBackgroundColor(Colors.Red);
+      setState(State.IntervalPause);
+      setCurrentInterval(currentInterval - 1);
+      setCountdown(intervalPauseLength);
+      return false;
+    }
+
+    if (countdownFinished() && state === State.IntervalPause) {
+      setBackgroundColor(Colors.Green);
+      setState(State.Interval);
+      setCountdown(intervalLength);
+      return false;
+    }
+
+    if (countdownFinished() && state === State.RoundPause) {
+      setCurrentInterval(intervals);
+      setState(State.Interval);
+      setCountdown(intervalLength);
+      setBackgroundColor(Colors.Green);
+      return false;
+    }
+
+    updateCountdown();
+    return false;
+  };
 
   const playSound = async () => {
     try {
-      await soundService.playRandomSound();
+      await audioService.playRandomSound();
     } catch (error) {
       console.log(error);
     }
@@ -61,25 +155,21 @@ export default function CountdownScreen() {
 
   return (
     <View style={{ ...styles.container, backgroundColor }}>
-      <View style={styles.clock}>
-        {!isPause && (
-          <>
-            <Text>{countdown.leftMinutes}</Text>
-            <Text>{countdown.rightMinutes}</Text>
-            <Text>:</Text>
-            <Text>{countdown.leftSeconds}</Text>
-            <Text>{countdown.rightSeconds}</Text>
-          </>
-        )}
+      <View style={styles.clockWrapper}>
+        <Text style={styles.clock}>{countdown.leftMinutes}</Text>
+        <Text style={styles.clock}>{countdown.rightMinutes}</Text>
+        <Text style={styles.clock}>:</Text>
+        <Text style={styles.clock}>{countdown.leftSeconds}</Text>
+        <Text style={styles.clock}>{countdown.rightSeconds}</Text>
       </View>
       <View style={styles.absoluteButtons}>
         <Button
-          backButton
+          icon="chevron-left"
+          large
           inverted
           onPress={() => setView(Component.Iteration)}
         />
-        <Button onPress={startCountdown} />
-        <Button onPress={playSound} />
+        <Button large icon="play" onPress={startCountdown} />
       </View>
     </View>
   );

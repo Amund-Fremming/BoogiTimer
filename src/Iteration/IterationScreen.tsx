@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { styles } from "./iterationScreenStyles";
-import { useGlobalProvider } from "../shared/GlobalContext";
-import { Component } from "../shared/Component";
+import { useGlobalProvider } from "../shared/providers/GlobalContext";
+import { Component } from "../shared/constants/Component";
 import IterationComponent from "./IterationComponent";
 import Button from "../shared/Button/Button";
 
@@ -19,7 +19,11 @@ export default function IterationScreen() {
       />
 
       <View style={styles.absoluteButtons}>
-        <Button onPress={() => setView(Component.Time)} />
+        <Button
+          large
+          icon="chevron-right"
+          onPress={() => setView(Component.Time)}
+        />
       </View>
     </View>
   );

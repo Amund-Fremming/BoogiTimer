@@ -1,7 +1,8 @@
-import { GlobalProvider } from "@/src/shared/GlobalContext";
 import Router from "@/src/Router";
 import { useState } from "react";
 import SplashScreen from "@/src/Splash/SplashScreen";
+import { GlobalProvider } from "@/src/shared/providers/GlobalContext";
+import { ServiceProvider } from "@/src/shared/providers/ServiceContext";
 
 export default function RootLayout() {
   const [displaySplash, setDisplaySplash] = useState<boolean>(true);
@@ -14,7 +15,9 @@ export default function RootLayout() {
 
   return (
     <GlobalProvider>
-      <Router />
+      <ServiceProvider>
+        <Router />
+      </ServiceProvider>
     </GlobalProvider>
   );
 }

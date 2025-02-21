@@ -11,11 +11,11 @@ export class AudioService {
   async initializeSounds() {
     try {
       var files = [
-        "./ronnie1.mp3",
-        "./ronnie2.mp3",
-        "./ronnie3.mp3",
-        "./ronnie4.mp3",
-        "./ronnie5.mp3",
+        "../audio/ronnie1.mp3",
+        "../audio/ronnie2.mp3",
+        "../audio/ronnie3.mp3",
+        "../audio/ronnie4.mp3",
+        "../audio/ronnie5.mp3",
       ];
 
       this.sounds = await Promise.all(

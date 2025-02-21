@@ -1,7 +1,7 @@
 import CountdownScreen from "./Countdown/CountdowScreen";
 import IterationScreen from "./Iteration/IterationScreen";
-import { Component } from "./shared/Component";
-import { useGlobalProvider } from "./shared/GlobalContext";
+import { Component } from "./shared/constants/Component";
+import { useGlobalProvider } from "./shared/providers/GlobalContext";
 import TimeScreen from "./Time/TimeScreen";
 
 export default function Router() {

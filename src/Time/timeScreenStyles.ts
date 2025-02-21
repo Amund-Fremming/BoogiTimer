@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { Colors } from "../shared/constants/Colors";
 
 export const styles = StyleSheet.create({
   container: {
@@ -6,6 +7,8 @@ export const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: Colors.Black,
+    gap: 10,
   },
 
   absoluteButton: {

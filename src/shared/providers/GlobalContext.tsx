@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { Component } from "./Component";
-import { defaultValue, INumericInput } from "./types";
+import { Component } from "../constants/Component";
+import { IClock, defaultValue } from "../constants/Clock";
 
 interface IGlobalContext {
   view: Component;
@@ -9,10 +9,12 @@ interface IGlobalContext {
   setRounds: React.Dispatch<React.SetStateAction<number>>;
   intervals: number;
   setIntervals: React.Dispatch<React.SetStateAction<number>>;
-  intervalLength: INumericInput;
-  setIntervalLength: React.Dispatch<React.SetStateAction<INumericInput>>;
-  intervalPauseLength: INumericInput;
-  setIntervalPauseLength: React.Dispatch<React.SetStateAction<INumericInput>>;
+  roundPauseLength: IClock;
+  setRoundPauseLength: React.Dispatch<React.SetStateAction<IClock>>;
+  intervalLength: IClock;
+  setIntervalLength: React.Dispatch<React.SetStateAction<IClock>>;
+  intervalPauseLength: IClock;
+  setIntervalPauseLength: React.Dispatch<React.SetStateAction<IClock>>;
 }
 
 const defaultContextValue: IGlobalContext = {
@@ -22,6 +24,8 @@ const defaultContextValue: IGlobalContext = {
   setRounds: () => {},
   intervals: 0,
   setIntervals: () => {},
+  roundPauseLength: defaultValue,
+  setRoundPauseLength: () => {},
   intervalLength: defaultValue,
   setIntervalLength: () => {},
   intervalPauseLength: defaultValue,
@@ -40,10 +44,11 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const [view, setView] = useState<Component>(Component.Iteration);
   const [rounds, setRounds] = useState<number>(0);
   const [intervals, setIntervals] = useState<number>(0);
-  const [intervalLength, setIntervalLength] =
-    useState<INumericInput>(defaultValue);
+  const [roundPauseLength, setRoundPauseLength] =
+    useState<IClock>(defaultValue);
+  const [intervalLength, setIntervalLength] = useState<IClock>(defaultValue);
   const [intervalPauseLength, setIntervalPauseLength] =
-    useState<INumericInput>(defaultValue);
+    useState<IClock>(defaultValue);
 
   const value = {
     view,
@@ -52,6 +57,8 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     setRounds,
     intervals,
     setIntervals,
+    roundPauseLength,
+    setRoundPauseLength,
     intervalLength,
     setIntervalLength,
     intervalPauseLength,

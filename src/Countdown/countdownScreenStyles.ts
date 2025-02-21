@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "../shared/Colors";
+import { Colors } from "../shared/constants/Colors";
 
 export const styles = StyleSheet.create({
   container: {
@@ -11,8 +11,15 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.Black,
   },
 
-  clock: {
+  clockWrapper: {
     flexDirection: "row",
+    gap: 12,
+  },
+
+  clock: {
+    color: Colors.White,
+    flexDirection: "row",
+    fontSize: 70,
   },
 
   absoluteButtons: {

@@ -1,14 +1,18 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "../shared/Colors";
+import { Colors } from "../shared/constants/Colors";
 
 export const styles = StyleSheet.create({
+  outerContainer: {
+    flexDirection: "column",
+  },
+
   container: {
     flexDirection: "row",
     backgroundColor: Colors.Black,
   },
 
   icon: {
-    //
+    fontWeight: "bold",
   },
 
   inputContainer: {
@@ -24,21 +28,26 @@ export const styles = StyleSheet.create({
   },
 
   number: {
+    color: Colors.White,
     fontSize: 40,
+    marginHorizontal: 8,
   },
 
   controlButton: {
     flexDirection: "row",
-    height: 40,
-    width: 40,
-    backgroundColor: "pink",
     justifyContent: "center",
     alignItems: "center",
-    margin: 2,
+  },
+
+  label: {
+    color: Colors.DarkRed,
+    fontSize: 20,
   },
 
   colon: {
-    fontSize: 20,
+    fontSize: 40,
+    color: Colors.White,
+    marginHorizontal: 5,
   },
 
   buttonContainer: {
