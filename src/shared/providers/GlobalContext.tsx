@@ -42,8 +42,8 @@ interface GlobalProviderProps {
 
 export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const [view, setView] = useState<Component>(Component.Iteration);
-  const [rounds, setRounds] = useState<number>(0);
-  const [intervals, setIntervals] = useState<number>(0);
+  const [rounds, setRounds] = useState<number>(3);
+  const [intervals, setIntervals] = useState<number>(4);
   const [roundPauseLength, setRoundPauseLength] =
     useState<IClock>(defaultValue);
   const [intervalLength, setIntervalLength] = useState<IClock>(defaultValue);

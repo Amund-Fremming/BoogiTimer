@@ -51,13 +51,47 @@ export default function CountdownScreen() {
     }, 1000);
   };
 
+  const updateCountdown2 = () => {
+    if (countdown.rightSeconds !== 0) {
+      setCountdown({ ...countdown, rightSeconds: countdown.rightSeconds - 1 });
+      return;
+    }
+
+    if (countdown.rightSeconds === 0 && countdown.leftSeconds !== 0) {
+    }
+
+    if (
+      countdown.rightSeconds === 0 &&
+      countdown.leftSeconds === 0 &&
+      countdown.rightMinutes !== 0
+    ) {
+    }
+
+    if (
+      countdown.rightSeconds === 0 &&
+      countdown.leftSeconds === 0 &&
+      countdown.rightMinutes === 0 &&
+      countdown.rightMinutes !== 0
+    ) {
+    }
+  };
+
   const updateCountdown = () => {
+    // SOME BUGGY SHITS RIGHT HERE
+    console.log("Updating countdown");
+
+    if (countdown.rightSeconds === 0) {
+      setCountdown({ ...countdown, rightSeconds: countdown.rightSeconds - 1 });
+      return;
+    }
+
     var values = [
       countdown.rightSeconds,
       countdown.leftSeconds,
       countdown.rightMinutes,
       countdown.leftMinutes,
     ];
+
     let nonZero = 0;
     for (let i = 0; i < 4; i++) {
       if (values[i] !== 0) {
@@ -82,18 +116,13 @@ export default function CountdownScreen() {
       leftSeconds: values[1],
       rightSeconds: values[0],
     });
-
-    console.log({
-      leftMinutes: values[3],
-      rightMinutes: values[2],
-      leftSeconds: values[1],
-      rightSeconds: values[0],
-    });
+    console.log("Updated countdown");
   };
 
   const isEven = (num: number) => num % 2 === 0;
 
   const handleCountdown = (): boolean => {
+    console.log(countdown.leftSeconds + " " + countdown.rightSeconds);
     if (state === State.Interval) {
       console.log("Incrementing interval");
       setCurrentInterval(currentInterval - 1);
