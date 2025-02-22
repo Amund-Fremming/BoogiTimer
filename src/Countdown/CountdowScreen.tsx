@@ -39,49 +39,23 @@ export default function CountdownScreen() {
   }, []);
 
   const startCountdown = () => {
-    console.log("countdown : " + countdown);
-
-    let interval = setInterval(() => {
+    const interval = setInterval(() => {
       setState(State.Interval);
-      let stopInterval = handleCountdown();
-      if (stopInterval) {
-        console.log("hit");
+      setBackgroundColor(Colors.Green);
+
+      if (handleCountdown()) {
+        console.log("Stop signaled");
         clearInterval(interval);
       }
     }, 1000);
   };
 
-  const updateCountdown2 = () => {
-    if (countdown.rightSeconds !== 0) {
-      setCountdown({ ...countdown, rightSeconds: countdown.rightSeconds - 1 });
-      return;
-    }
-
-    if (countdown.rightSeconds === 0 && countdown.leftSeconds !== 0) {
-    }
-
-    if (
-      countdown.rightSeconds === 0 &&
-      countdown.leftSeconds === 0 &&
-      countdown.rightMinutes !== 0
-    ) {
-    }
-
-    if (
-      countdown.rightSeconds === 0 &&
-      countdown.leftSeconds === 0 &&
-      countdown.rightMinutes === 0 &&
-      countdown.rightMinutes !== 0
-    ) {
-    }
-  };
-
   const updateCountdown = () => {
-    // SOME BUGGY SHITS RIGHT HERE
-    console.log("Updating countdown");
-
-    if (countdown.rightSeconds === 0) {
-      setCountdown({ ...countdown, rightSeconds: countdown.rightSeconds - 1 });
+    if (countdown.rightSeconds !== 0) {
+      setCountdown((prevState) => ({
+        ...prevState,
+        rightSeconds: prevState.rightSeconds - 1,
+      }));
       return;
     }
 
@@ -93,7 +67,7 @@ export default function CountdownScreen() {
     ];
 
     let nonZero = 0;
-    for (let i = 0; i < 4; i++) {
+    for (let i = 1; i < 4; i++) {
       if (values[i] !== 0) {
         nonZero = i;
         break;
@@ -116,15 +90,14 @@ export default function CountdownScreen() {
       leftSeconds: values[1],
       rightSeconds: values[0],
     });
-    console.log("Updated countdown");
   };
 
   const isEven = (num: number) => num % 2 === 0;
 
   const handleCountdown = (): boolean => {
-    console.log(countdown.leftSeconds + " " + countdown.rightSeconds);
+    console.log("State after: " + countdown.rightSeconds);
+
     if (state === State.Interval) {
-      console.log("Incrementing interval");
       setCurrentInterval(currentInterval - 1);
     }
 
