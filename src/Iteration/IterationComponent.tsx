@@ -24,7 +24,7 @@ export default function IterationComponent({
           <Button
             inverted
             icon="minus"
-            onPress={() => setValue(value == 0 ? 0 : value - 1)}
+            onPress={() => setValue(value == 1 ? 1 : value - 1)}
           />
           <Button icon="plus" onPress={() => setValue(value + 1)} />
         </View>

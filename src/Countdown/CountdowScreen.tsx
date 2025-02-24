@@ -1,4 +1,4 @@
-import { View, Text, Alert } from "react-native";
+import { View, Text } from "react-native";
 import { Component } from "../shared/constants/Component";
 import { useGlobalProvider } from "../shared/providers/GlobalContext";
 import { useEffect, useRef, useState } from "react";
@@ -31,25 +31,25 @@ export default function CountdownScreen() {
   const [state, setState] = useState<State>(State.NotStarted);
   const [countdown, setCountdown] = useState<IClock>(intervalLength);
   const [currentInterval, setCurrentInterval] = useState<number>(intervals);
+  const [currentRound, setCurrentRound] = useState<number>(rounds);
 
-  const countdownRef = useRef<IClock>(defaultValue);
+  const countdownRef = useRef<IClock>(countdown);
+  const stateRef = useRef<State>(state);
+  const currentIntervalRef = useRef<number>(currentInterval);
+  const currentRoundsRef = useRef<number>(currentRound);
+
   const { audioService } = useServiceProvider();
 
   useEffect(() => {
-    countdownRef.current = countdown;
-  }, [countdown]);
+    //audioService.initializeSounds();
+  }, []);
 
   useEffect(() => {
-    console.log(
-      countdown.leftMinutes +
-        "" +
-        countdown.rightMinutes +
-        ":" +
-        countdown.leftSeconds +
-        "" +
-        countdown.rightSeconds
-    );
-  }, [countdown]);
+    countdownRef.current = countdown;
+    stateRef.current = state;
+    currentIntervalRef.current = currentInterval;
+    currentRoundsRef.current = currentRound;
+  }, [countdown, state, currentInterval, currentRound]);
 
   const startCountdown = () => {
     console.log("startCountdown");
@@ -64,7 +64,6 @@ export default function CountdownScreen() {
   };
 
   const updateCountdown = (): IClock => {
-    console.log("Update countdown");
     let values = [
       countdownRef.current.leftMinutes,
       countdownRef.current.rightMinutes,
@@ -75,11 +74,10 @@ export default function CountdownScreen() {
     let i = 3;
     let stop = false;
     while (!stop && i > -1) {
-      console.log("Value " + values[i]);
-
       if (values[i] != 0) {
         values[i] = values[i] - 1;
         stop = true;
+        break;
       }
 
       if (values[i] == 0 && isEven(i)) {
@@ -92,24 +90,12 @@ export default function CountdownScreen() {
       i--;
     }
 
-    console.log("updateCountdown finished");
-
     const newState = {
       leftMinutes: values[0],
       rightMinutes: values[1],
       leftSeconds: values[2],
       rightSeconds: values[3],
     };
-
-    /*console.log(
-      updatedState.leftMinutes +
-        "" +
-        updatedState.rightMinutes +
-        ":" +
-        updatedState.leftSeconds +
-        "" +
-        updatedState.rightSeconds
-    );*/
 
     setCountdown((prevState) => ({ ...prevState, ...newState }));
     return newState;
@@ -118,22 +104,22 @@ export default function CountdownScreen() {
   const isEven = (num: number) => num % 2 === 0;
 
   const handleCountdown = (): boolean => {
-    console.log("handleCountdown");
-
     const countdownValue = updateCountdown();
-    const isCountdownFinished = countdownFinished(countdownValue);
 
-    if (isCountdownFinished) {
+    if (!countdownFinished(countdownValue)) {
       return false;
     }
 
-    switch (state) {
+    switch (stateRef.current) {
       case State.Interval:
-        if (currentInterval === 0 && rounds === 0) {
+        if (
+          currentIntervalRef.current === 1 &&
+          currentRoundsRef.current === 1
+        ) {
           handleCountdownFinished();
           return true;
         }
-        if (currentInterval === 0) {
+        if (currentIntervalRef.current === 1) {
           handleIntervalsFinished();
           break;
         }
@@ -152,24 +138,20 @@ export default function CountdownScreen() {
   };
 
   const handleRoundPauseFinished = () => {
-    console.log("handleRoundpauseFinished");
-
     setState(State.Interval);
     setBackgroundColor(Colors.Green);
     setCountdown(intervalLength);
+
+    setCurrentRound((prevState) => prevState - 1);
   };
 
   const handleIntervalPauseFinished = () => {
-    console.log("handleIntervalPauseFinished");
-
     setState(State.Interval);
     setBackgroundColor(Colors.Green);
     setCountdown(intervalLength);
   };
 
   const handleIntervalRoundFinished = () => {
-    console.log("handleIntervalRoundFinished");
-
     setState(State.IntervalPause);
     setBackgroundColor(Colors.DarkRed);
     setCountdown(intervalPauseLength);
@@ -178,8 +160,6 @@ export default function CountdownScreen() {
   };
 
   const handleIntervalsFinished = () => {
-    console.log("handleIntervalsFinished");
-
     setState(State.RoundPause);
     setBackgroundColor(Colors.Gray);
     setCountdown(roundPauseLength);
@@ -188,26 +168,19 @@ export default function CountdownScreen() {
   };
 
   const handleCountdownFinished = () => {
-    console.log("handleCountdownFinished");
-
     setState(State.Finished);
     setBackgroundColor(Colors.Black);
-    setCountdown(defaultValue);
-  };
 
-  const playSound = async () => {
-    try {
-      await audioService.playRandomSound();
-    } catch (error) {
-      console.log(error);
-    }
+    setCountdown(intervalLength);
+    setCurrentRound(rounds);
+    setCurrentInterval(intervals);
   };
 
   const countdownFinished = (countdown: IClock) =>
-    countdown.leftMinutes === 0 &&
-    countdown.rightMinutes === 0 &&
-    countdown.leftSeconds === 0 &&
-    countdown.rightSeconds === 0;
+    countdown.leftMinutes == 0 &&
+    countdown.rightMinutes == 0 &&
+    countdown.leftSeconds == 0 &&
+    countdown.rightSeconds == 0;
 
   return (
     <View style={{ ...styles.container, backgroundColor }}>

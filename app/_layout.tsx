@@ -9,7 +9,7 @@ export default function RootLayout() {
 
   setTimeout(() => {
     setDisplaySplash(false);
-  }, 1000);
+  }, 400);
 
   if (displaySplash) return <SplashScreen />;
 
