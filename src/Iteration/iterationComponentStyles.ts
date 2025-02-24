@@ -15,12 +15,13 @@ export const styles = StyleSheet.create({
   },
 
   label: {
-    fontSize: 18,
+    fontSize: 24,
     color: Colors.DarkRed,
+    fontFamily: "Orbitron",
   },
 
   lineWrapper: {
-    width: "90%",
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -36,7 +37,8 @@ export const styles = StyleSheet.create({
 
   number: {
     color: Colors.White,
-    fontSize: 40,
+    fontSize: 45,
+    fontFamily: "Orbitron",
   },
 
   controlButton: {

@@ -14,6 +14,6 @@ export const styles = StyleSheet.create({
   absoluteButtons: {
     position: "absolute",
     bottom: 50,
-    right: 35,
+    right: 10,
   },
 });

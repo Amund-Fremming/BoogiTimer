@@ -6,7 +6,8 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
+    paddingLeft: 30,
     backgroundColor: Colors.Black,
     gap: 10,
   },
@@ -14,7 +15,7 @@ export const styles = StyleSheet.create({
   absoluteButton: {
     position: "absolute",
     bottom: 50,
-    right: 35,
+    right: 15,
     gap: 10,
     flexDirection: "row",
   },

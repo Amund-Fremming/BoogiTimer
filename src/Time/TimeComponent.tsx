@@ -34,7 +34,7 @@ export default function TimeComponent({
 
   const getIncrement = (index: number, value: number) => {
     const isOdd = index % 2 !== 0;
-    if ((isOdd && value == 9) || (!isOdd && value == 6)) {
+    if ((isOdd && value == 9) || (!isOdd && value == 5)) {
       return value;
     }
 

@@ -6,9 +6,8 @@ import { styles } from "./buttonStyles";
 interface ButtonProps {
   large?: boolean;
   onPress: () => void;
-  icon: "chevron-right" | "chevron-left" | "play" | "plus" | "minus";
+  icon: "chevron-right" | "chevron-left" | "plus" | "minus";
   inverted?: boolean;
-  backButton?: boolean;
 }
 
 export default function Button({
@@ -16,12 +15,11 @@ export default function Button({
   onPress,
   icon,
   inverted = false,
-  backButton = false,
 }: ButtonProps) {
   const backgroundColor = inverted ? Colors.White : Colors.DarkRed;
   const iconColor = inverted ? Colors.DarkRed : Colors.White;
-  const iconSize = big ? 45 : 22;
-  const scale = big ? 70 : 30;
+  const iconSize = big ? 45 : 0;
+  const scale = big ? 70 : 38;
 
   return (
     <Pressable

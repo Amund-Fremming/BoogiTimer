@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
   },
 
   clock: {
+    fontFamily: "Orbitron",
     color: Colors.White,
     flexDirection: "row",
     fontSize: 70,
@@ -26,7 +27,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     bottom: 50,
-    right: 35,
+    right: 15,
     position: "absolute",
   },
 });

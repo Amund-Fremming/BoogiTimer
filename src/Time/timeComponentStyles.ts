@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
   },
 
   numberWrapper: {
+    width: 60,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
@@ -29,8 +30,9 @@ export const styles = StyleSheet.create({
 
   number: {
     color: Colors.White,
-    fontSize: 40,
+    fontSize: 50,
     marginHorizontal: 8,
+    fontFamily: "Orbitron",
   },
 
   controlButton: {
@@ -40,6 +42,9 @@ export const styles = StyleSheet.create({
   },
 
   label: {
+    paddingTop: 10,
+    marginLeft: 10,
+    fontFamily: "Orbitron",
     color: Colors.DarkRed,
     fontSize: 20,
   },

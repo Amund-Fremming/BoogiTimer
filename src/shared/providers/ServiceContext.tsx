@@ -19,6 +19,7 @@ interface GlobalServiceProps {
 
 export const ServiceProvider = ({ children }: GlobalServiceProps) => {
   const audioService = new AudioService();
+  audioService.initializeSounds();
 
   const value = {
     audioService,

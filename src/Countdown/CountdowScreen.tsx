@@ -4,7 +4,7 @@ import { useGlobalProvider } from "../shared/providers/GlobalContext";
 import { useEffect, useRef, useState } from "react";
 import { styles } from "./countdownScreenStyles";
 import { Colors } from "../shared/constants/Colors";
-import { IClock, defaultValue } from "../shared/constants/Clock";
+import { IClock } from "../shared/constants/Clock";
 import React from "react";
 import Button from "../shared/Button/Button";
 import { useServiceProvider } from "../shared/providers/ServiceContext";
@@ -41,10 +41,6 @@ export default function CountdownScreen() {
   const { audioService } = useServiceProvider();
 
   useEffect(() => {
-    //audioService.initializeSounds();
-  }, []);
-
-  useEffect(() => {
     countdownRef.current = countdown;
     stateRef.current = state;
     currentIntervalRef.current = currentInterval;
@@ -52,12 +48,11 @@ export default function CountdownScreen() {
   }, [countdown, state, currentInterval, currentRound]);
 
   const startCountdown = () => {
-    console.log("startCountdown");
     setState(State.Interval);
     setBackgroundColor(Colors.Green);
-    const interval = setInterval(() => {
-      if (handleCountdown()) {
-        console.log("Stop signaled");
+
+    const interval = setInterval(async () => {
+      if (await handleCountdown()) {
         clearInterval(interval);
       }
     }, 1000);
@@ -97,18 +92,20 @@ export default function CountdownScreen() {
       rightSeconds: values[3],
     };
 
-    setCountdown((prevState) => ({ ...prevState, ...newState }));
+    setCountdown(newState);
     return newState;
   };
 
   const isEven = (num: number) => num % 2 === 0;
 
-  const handleCountdown = (): boolean => {
+  const handleCountdown = async (): Promise<boolean> => {
     const countdownValue = updateCountdown();
 
     if (!countdownFinished(countdownValue)) {
       return false;
     }
+
+    await audioService.playRandomSound();
 
     switch (stateRef.current) {
       case State.Interval:
@@ -123,7 +120,6 @@ export default function CountdownScreen() {
           handleIntervalsFinished();
           break;
         }
-
         handleIntervalRoundFinished();
         break;
       case State.IntervalPause:
@@ -198,7 +194,7 @@ export default function CountdownScreen() {
           inverted
           onPress={() => setView(Component.Iteration)}
         />
-        <Button large icon="play" onPress={startCountdown} />
+        <Button large icon="chevron-right" onPress={startCountdown} />
       </View>
     </View>
   );
