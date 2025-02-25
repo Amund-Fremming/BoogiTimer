@@ -26,7 +26,7 @@ export default function TimeComponent({
   const [leftMinutes, setLeftMinutes] = useState<number>(0);
   const [rightMinutes, setRightMinutes] = useState<number>(0);
   const [leftSeconds, setLeftSeconds] = useState<number>(0);
-  const [rightSeconds, setRightSeconds] = useState<number>(2);
+  const [rightSeconds, setRightSeconds] = useState<number>(0);
 
   useEffect(() => {
     setValue({ leftMinutes, rightMinutes, leftSeconds, rightSeconds });

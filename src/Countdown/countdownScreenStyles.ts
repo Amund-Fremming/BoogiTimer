@@ -13,10 +13,21 @@ export const styles = StyleSheet.create({
 
   clockWrapper: {
     flexDirection: "row",
-    gap: 12,
+    gap: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   clock: {
+    width: 55,
+    fontFamily: "Orbitron",
+    color: Colors.White,
+    flexDirection: "row",
+    fontSize: 70,
+  },
+
+  colon: {
+    width: 20,
     fontFamily: "Orbitron",
     color: Colors.White,
     flexDirection: "row",

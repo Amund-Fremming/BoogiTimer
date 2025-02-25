@@ -32,6 +32,7 @@ export default function CountdownScreen() {
   const [countdown, setCountdown] = useState<IClock>(intervalLength);
   const [currentInterval, setCurrentInterval] = useState<number>(intervals);
   const [currentRound, setCurrentRound] = useState<number>(rounds);
+  const [activeCountdown, setActiveCountdown] = useState<boolean>(false);
 
   const countdownRef = useRef<IClock>(countdown);
   const stateRef = useRef<State>(state);
@@ -48,10 +49,12 @@ export default function CountdownScreen() {
   }, [countdown, state, currentInterval, currentRound]);
 
   const startCountdown = () => {
+    setActiveCountdown(true);
     setState(State.Interval);
-    setBackgroundColor(Colors.Green);
 
     const interval = setInterval(async () => {
+      setBackgroundColor(Colors.Green);
+      updateCountdown();
       if (await handleCountdown()) {
         clearInterval(interval);
       }
@@ -65,6 +68,11 @@ export default function CountdownScreen() {
       countdownRef.current.leftSeconds,
       countdownRef.current.rightSeconds,
     ];
+
+    var finished = values.filter((v) => v == 0).length == 4;
+    if (finished) {
+      return { ...countdownRef.current, rightSeconds: -1 };
+    }
 
     let i = 3;
     let stop = false;
@@ -114,6 +122,7 @@ export default function CountdownScreen() {
           currentRoundsRef.current === 1
         ) {
           handleCountdownFinished();
+          setActiveCountdown(false);
           return true;
         }
         if (currentIntervalRef.current === 1) {
@@ -176,14 +185,14 @@ export default function CountdownScreen() {
     countdown.leftMinutes == 0 &&
     countdown.rightMinutes == 0 &&
     countdown.leftSeconds == 0 &&
-    countdown.rightSeconds == 0;
+    countdown.rightSeconds == -1;
 
   return (
     <View style={{ ...styles.container, backgroundColor }}>
       <View style={styles.clockWrapper}>
         <Text style={styles.clock}>{countdown.leftMinutes}</Text>
         <Text style={styles.clock}>{countdown.rightMinutes}</Text>
-        <Text style={styles.clock}>:</Text>
+        <Text style={styles.colon}>:</Text>
         <Text style={styles.clock}>{countdown.leftSeconds}</Text>
         <Text style={styles.clock}>{countdown.rightSeconds}</Text>
       </View>
@@ -192,9 +201,13 @@ export default function CountdownScreen() {
           icon="chevron-left"
           large
           inverted
-          onPress={() => setView(Component.Iteration)}
+          onPress={() => setView(Component.Time)}
         />
-        <Button large icon="chevron-right" onPress={startCountdown} />
+        <Button
+          large
+          icon="chevron-right"
+          onPress={activeCountdown ? () => {} : startCountdown}
+        />
       </View>
     </View>
   );
