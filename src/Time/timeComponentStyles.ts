@@ -1,5 +1,10 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../shared/constants/Colors";
+import {
+  horizontalScale,
+  moderateScale,
+  verticalScale,
+} from "../shared/common/Dimentions";
 
 export const styles = StyleSheet.create({
   outerContainer: {
@@ -22,7 +27,7 @@ export const styles = StyleSheet.create({
   },
 
   numberWrapper: {
-    width: 60,
+    width: horizontalScale(60),
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
@@ -30,7 +35,7 @@ export const styles = StyleSheet.create({
 
   number: {
     color: Colors.White,
-    fontSize: 50,
+    fontSize: moderateScale(50),
     marginHorizontal: 8,
     fontFamily: "Orbitron",
   },
@@ -42,24 +47,24 @@ export const styles = StyleSheet.create({
   },
 
   label: {
-    paddingTop: 10,
-    marginLeft: 10,
+    paddingTop: verticalScale(10),
+    marginLeft: horizontalScale(10),
     fontFamily: "Orbitron",
     color: Colors.DarkRed,
-    fontSize: 20,
+    fontSize: moderateScale(20),
   },
 
   colon: {
-    fontSize: 40,
+    fontSize: moderateScale(40),
     color: Colors.White,
-    marginHorizontal: 5,
+    marginHorizontal: horizontalScale(5),
   },
 
   buttonContainer: {
     flexDirection: "row",
-    gap: 20,
+    gap: horizontalScale(20),
     position: "absolute",
-    top: 50,
+    top: verticalScale(50),
     alignItems: "center",
   },
 });

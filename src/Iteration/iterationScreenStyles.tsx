@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../shared/constants/Colors";
+import { horizontalScale, verticalScale } from "../shared/common/Dimentions";
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,13 +8,13 @@ export const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    gap: 20,
+    gap: verticalScale(20),
     backgroundColor: Colors.Black,
   },
 
   absoluteButtons: {
     position: "absolute",
-    bottom: 50,
-    right: 10,
+    bottom: verticalScale(50),
+    right: horizontalScale(10),
   },
 });
