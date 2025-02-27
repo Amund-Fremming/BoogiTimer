@@ -59,9 +59,9 @@ export default function CountdownScreen() {
 
     setActiveCountdown(true);
     setState(State.Interval);
+    setBackgroundColor(Colors.Green);
 
     const interval = setInterval(async () => {
-      setBackgroundColor(Colors.Green);
       updateCountdown();
       if (await handleCountdown()) {
         clearInterval(interval);
@@ -211,11 +211,13 @@ export default function CountdownScreen() {
           inverted
           onPress={() => setView(Component.Time)}
         />
-        <Button
-          large
-          icon="chevron-right"
-          onPress={activeCountdown ? () => {} : startCountdown}
-        />
+        {!activeCountdown && (
+          <Button
+            large
+            icon="chevron-right"
+            onPress={activeCountdown ? () => {} : startCountdown}
+          />
+        )}
       </View>
     </View>
   );

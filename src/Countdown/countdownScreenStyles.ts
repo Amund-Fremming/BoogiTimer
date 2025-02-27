@@ -1,5 +1,10 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../shared/constants/Colors";
+import {
+  horizontalScale,
+  moderateScale,
+  verticalScale,
+} from "../shared/common/Dimentions";
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,32 +18,32 @@ export const styles = StyleSheet.create({
 
   clockWrapper: {
     flexDirection: "row",
-    gap: 10,
+    gap: horizontalScale(10),
     justifyContent: "center",
     alignItems: "center",
   },
 
   clock: {
-    width: 55,
+    width: horizontalScale(55),
     fontFamily: "Orbitron",
     color: Colors.White,
     flexDirection: "row",
-    fontSize: 70,
+    fontSize: moderateScale(70),
   },
 
   colon: {
-    width: 20,
+    width: horizontalScale(20),
     fontFamily: "Orbitron",
     color: Colors.White,
     flexDirection: "row",
-    fontSize: 70,
+    fontSize: moderateScale(70),
   },
 
   absoluteButtons: {
     flexDirection: "row",
-    gap: 10,
-    bottom: 50,
-    right: 15,
+    gap: horizontalScale(10),
+    bottom: verticalScale(50),
+    right: verticalScale(15),
     position: "absolute",
   },
 });

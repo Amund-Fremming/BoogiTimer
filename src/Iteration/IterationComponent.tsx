@@ -16,7 +16,7 @@ export default function IterationComponent({
   return (
     <View style={styles.container}>
       <View style={styles.lineWrapper}>
-        <View style={styles.numberWrapper}>
+        <View>
           <Text style={styles.label}>{label}</Text>
           <Text style={styles.number}>{value}</Text>
         </View>
