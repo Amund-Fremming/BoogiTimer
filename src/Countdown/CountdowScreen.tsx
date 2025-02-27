@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { Component } from "../shared/constants/Component";
 import { useGlobalProvider } from "../shared/providers/GlobalContext";
 import { useEffect, useRef, useState } from "react";
@@ -49,6 +49,14 @@ export default function CountdownScreen() {
   }, [countdown, state, currentInterval, currentRound]);
 
   const startCountdown = () => {
+    if (countdownFinished(countdown)) {
+      Alert.alert(
+        "Oops",
+        "The timer cannot be started without setting at least one time."
+      );
+      return;
+    }
+
     setActiveCountdown(true);
     setState(State.Interval);
 
