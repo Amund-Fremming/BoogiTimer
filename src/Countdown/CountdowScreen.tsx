@@ -49,7 +49,12 @@ export default function CountdownScreen() {
   }, [countdown, state, currentInterval, currentRound]);
 
   const startCountdown = () => {
-    if (countdownFinished(countdown)) {
+    if (
+      countdown.rightMinutes == 0 &&
+      countdown.leftMinutes == 0 &&
+      countdown.rightSeconds == 0 &&
+      countdown.leftSeconds == 0
+    ) {
       Alert.alert(
         "Oops",
         "The timer cannot be started without setting at least one time."
